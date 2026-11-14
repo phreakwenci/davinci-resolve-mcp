@@ -796,9 +796,11 @@ def install_dependencies(venv_path, project_dir):
 
     print(f"  Installing dependencies...")
 
-    # Install MCP SDK
+    # Install MCP SDK. Pinned below 2: src/server.py imports
+    # mcp.server.fastmcp, which mcp 2.x renamed (FastMCP -> MCPServer), so an
+    # unpinned install crashes the server on startup.
     subprocess.run(
-        [str(pip), "install", "-q", "mcp[cli]"],
+        [str(pip), "install", "-q", "mcp[cli]<2"],
         check=True, capture_output=True
     )
 
